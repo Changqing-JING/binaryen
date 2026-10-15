@@ -17,6 +17,10 @@ Run from this directory:
 
 ## Results
 
+### Native AOT
+
+https://github.com/wasm-ecosystem/wasm-compiler
+
 Native AOT execution under Cachegrind, with a 32 KiB, 8-way I1 cache and 64-byte
 lines. Compilation is excluded; measurement covers module start and `_start`.
 Three trials per layout produced identical counts and returned zero.
@@ -32,6 +36,31 @@ Three trials per layout produced identical counts and returned zero.
 **1.70% fewer I1 misses than baseline.** Both native binaries are 4,120,772 bytes;
 canonicalized Wasm is byte-identical, confirming only function order changed.
 This does not establish a runtime speedup.
+
+### wasm-interp
+
+WABT `wasm-interp` 1.0.41, running `_start` once per process:
+
+```bash
+valgrind --tool=cachegrind --cache-sim=yes \
+  --I1=32768,8,64 --D1=32768,8,64 --LL=8388608,16,64 \
+  wasm-interp solution.wasm --run-export=_start
+```
+
+Repeat with `baseline.wasm`. These counts include loading, validation, and
+interpretation; they are not directly comparable to the native execution-only
+counts. I1 measures interpreter code, not native code generated from Wasm.
+
+| Metric                 |       Baseline |       Solution |
+| ---------------------- | -------------: | -------------: |
+| Instruction references | 22,758,297,578 | 22,758,307,735 |
+| I1 misses              |        719,073 |        721,800 |
+| LLi misses             |          6,028 |          6,023 |
+| D1 misses              |      3,195,574 |      3,120,025 |
+| LLd misses             |        380,471 |        375,964 |
+
+Three trials produced identical counts and returned zero: **2.36% fewer D1
+misses**, 1.18% fewer LLd misses, and 0.38% more I1 misses.
 
 ## Key LLVM Concepts
 
