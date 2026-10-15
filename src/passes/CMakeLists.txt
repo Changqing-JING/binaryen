@@ -119,6 +119,7 @@ set(passes_SOURCES
   RemoveUnusedModuleElements.cpp
   RemoveUnusedTypes.cpp
   ReorderFunctions.cpp
+  ReorderFunctionsByCallGraph.cpp
   ReorderGlobals.cpp
   ReorderLocals.cpp
   ReorderTypes.cpp

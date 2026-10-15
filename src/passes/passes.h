@@ -147,6 +147,7 @@ Pass* createRemoveUnusedModuleElementsPass();
 Pass* createRemoveUnusedNonFunctionModuleElementsPass();
 Pass* createRemoveUnusedNamesPass();
 Pass* createRemoveUnusedTypesPass();
+Pass* createReorderFunctionsByCallGraphPass();
 Pass* createReorderFunctionsByNamePass();
 Pass* createReorderFunctionsPass();
 Pass* createReorderGlobalsPass();

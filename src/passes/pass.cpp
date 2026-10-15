@@ -447,6 +447,10 @@ void PassRegistry::registerPasses() {
   registerPass("remove-unused-types",
                "remove unused private GC types",
                createRemoveUnusedTypesPass);
+  registerPass("reorder-functions-by-call-graph",
+               "places functions by weighted call-graph contraction (static "
+               "call-site counts)",
+               createReorderFunctionsByCallGraphPass);
   registerPass("reorder-functions-by-name",
                "sorts functions by name (useful for debugging)",
                createReorderFunctionsByNamePass);
